@@ -1,3 +1,8 @@
+<p align="center">
+  <img src="Group4.png" alt="Lazy Arduino Logo" width="200"/>
+</p>
+
+
 # Lazy Arduino
 
 I am making a TUI for arduino cli that for new cli users.
@@ -16,3 +21,4 @@ I am making a TUI for arduino cli that for new cli users.
 ## Current view
 
 ![alt text](image.png)
+
