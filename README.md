@@ -23,11 +23,11 @@ lazy-arduino-c/
 
 ## Plan
 
-- [ ] CLI Skeleton (Go with Cobra or Rust with Clap)
-- [ ] TUI Framework setup (BubbleTea / tui-rs)
-- [ ] `arduino-cli` wrapper module (calls, parses output)
+- [ ] CLI Skeleton 
+- [ ] TUI Framework setup 
+- [ ] `arduino-cli` wrapper module 
 - [ ] Board/Port detection screen
-- [ ] Sketch selection screen (browse files)
+- [ ] Sketch selection screen 
 - [ ] Compile/upload screen with logs
-- [ ] Serial monitor (basic logging)
+- [ ] Serial monitor 
 
