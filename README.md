@@ -11,3 +11,8 @@ I am making a TUI for arduino cli that for new cli users.
 - [ ] Sketch selection screen
 - [ ] Compile/upload screen with logs
 - [ ] Serial monitor
+
+
+## Current view
+
+![alt text](image.png)
