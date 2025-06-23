@@ -35,7 +35,9 @@ void main_menu(){
 		ch = getch();
         switch (ch) {
             case KEY_UP:    choice = (choice - 1 + 4) % 4; break;
+            case 'k':    choice = (choice - 1 + 4) % 4; break;
             case KEY_DOWN:  choice = (choice + 1) % 4; break;
+            case 'j':  choice = (choice + 1) % 4; break;
             case '\n':
                 if (choice == 0)
                     list_boards();
@@ -46,6 +48,7 @@ void main_menu(){
                 else if (choice == 3)
                     return;
                 break;
+	    case 'q': return;break;
 	
 	}
 }
