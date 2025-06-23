@@ -1,9 +1,5 @@
-// lazy_arduino_tui.c
-// Basic 5-panel Arduino TUI with ncurses and external editor launch
-
 #include <ncurses.h>
 #include <stdlib.h>
-#include <string.h>
 
 #define MAX_SKETCHES 5
 const char *sketches[MAX_SKETCHES] = {"blink.ino", "servo.ino", "adc.ino", "wifi.ino", "temp.ino"};
