@@ -58,3 +58,8 @@ lazy-arduino/
 - for some can use this who doesnt uses cli much often but want to use it over ssh.
 - if someone have low end sytem can use this instead of bulky arduino ide.
 
+## Logs
+- I am using wsl right now(yes :(  ) so to use the port for any micrcontroller so that wsl cna detect it i have installed `https://github.com/dorssel/usbipd-win/releases`
+and run `usbipd list` to list all the ports and then ` usbipd bind --busid <BUSID>` this binds the usb device on windows so that i can forward it and then run `usbipd attach --busid 3-1 --wsl`
+so that the usb device will be available in wsl.
+- you have to run the `usbpid` command before connecting the micrcontroller every time so that wsl can read it.
