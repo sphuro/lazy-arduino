@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ncurses.h>
+#include "board.h"
 
 void run_command(const char *cmd){
 	FILE *fp = popen(cmd, "r");
@@ -24,8 +25,24 @@ void run_command(const char *cmd){
 	getch();
 }
 
-void list_boards(){
-	run_command("arduino-cli board list");
+void list_boards() {
+    clear();
+    mvprintw(0, 0, "Connected Boards:");
+
+    Board boards[MAX_BOARDS];
+    int count = get_boards(boards, MAX_BOARDS);
+
+    if (count <= 0) {
+        mvprintw(2, 2, "No boards found.");
+    } else {
+        for (int i = 0; i < count; ++i) {
+            mvprintw(i + 2, 2, "[%d] %s (%s)", i + 1, boards[i].boardName, boards[i].port);
+        }
+    }
+
+    mvprintw(count + 4, 2, "Press any key to return...");
+    refresh();
+    getch();
 }
 
 void compile_sketch(const char *sketch_path){
