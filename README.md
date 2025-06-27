@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="Group4.png" alt="Lazy Arduino Logo" width="200"/>
+  <img src="assets/Group4.png" alt="Lazy Arduino Logo" width="200"/>
 </p>
 
 

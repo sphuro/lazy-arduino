@@ -1,10 +1,19 @@
-typedef enum {
-	dashboard;
-	boards;
-	libraries;
-	cores;
-	examples;
-} PageType;
+#ifndef PAGES_H
+#define PAGES_H
 
-extern PageType current_page;
-void draw_page(PageType page);
+typedef enum {
+	dashboard =0,
+	boards,
+	libraries,
+	cores,
+	examples,
+	total
+} pagetype;
+
+extern pagetype current_page;
+
+void draw_page(pagetype page);
+void switch_page(int delta);
+void draw_curr_page(void);
+
+#endif
