@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <dirent.h>
 #include "sketches.h"
 
 char sketches[MAX_SKETCHES][SKETCH_NAME_LEN];
@@ -11,6 +12,22 @@ void load_sketches(const char *path){
 	// data here
 	strncpy(sketches[0], "blink.ino", SKETCH_NAME_LEN);
 	strncpy(sketches[1], "servo.ino", SKETCH_NAME_LEN);
+	
+	DIR *d;
+	struct dirent *dir;
+	d = opendir(path);
+	int i = 0;
+	if(d){
+		while ((dir = readdir(d)) != NULL) {
+			/* printf("%s\n", ); */	
+			strncpy(sketches[i], dir->d_name, SKETCH_NAME_LEN);
+			i++;
+		}
+		closedir(d);
+	}
+	else{
+		perror("Error opening sketches");
+	}
 
 }
 
