@@ -7,6 +7,8 @@ void init_ui(){
 	noecho();
 	cbreak();
 	keypad(stdscr, TRUE);
+	curs_set(0);
+	refresh();
 }
 
 
