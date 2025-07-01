@@ -6,7 +6,7 @@
 #define MAX_LOG_LINE 100
 #define MAX_LOG_LENGTH 256
 
-void add_log(cons char *msg);
+void add_log(const char *msg);
 void clear_logs(void);
 void draw_logs(WINDOW *win);
 

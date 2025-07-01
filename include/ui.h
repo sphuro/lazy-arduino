@@ -5,6 +5,7 @@
 void init_ui();
 
 void end_ui();
+void draw_current_page(void);
 
 void main_menu();
 
