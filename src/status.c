@@ -11,5 +11,5 @@ void update_status(const char *message){
 void draw_status(WINDOW *win){
     werase(win);
     mvwprintw(win, 0, 1, "%s", status_msg);
-    wrefresh(win);
+    wnoutrefresh(win);
 }

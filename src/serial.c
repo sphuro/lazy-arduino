@@ -17,5 +17,5 @@ void draw_serial(WINDOW *win){
     box(win, 0, 0);
     mvwprintw(win, 0, 2, " Serial Monitor ");
     mvwprintw(win, 1, 2, "Waiting for data...");
-    wrefresh(win);
+    wnoutrefresh(win);
 }

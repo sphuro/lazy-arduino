@@ -57,5 +57,5 @@ void draw_boards_panel(WINDOW *win){
             mvwprintw(win, i+1, 2, "%s (%s)", connected_boards[i].boardName, connected_boards[i].port);
         }
     }
-    wrefresh(win);
+    wnoutrefresh(win);
 }

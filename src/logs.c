@@ -21,5 +21,5 @@ void draw_logs(WINDOW *win){
     for(int i = 0; i <  log_count; i++){
         mvwprintw(win, i+1, 2, "%s", log_lines[i]);
     }
-    wrefresh(win);
+    wnoutrefresh(win);
 }

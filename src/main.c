@@ -12,9 +12,11 @@ int main() {
 
     draw_curr_page();
 
-    while (1) {
-        draw_curr_page();
-        int ch = getch();
+    int ch;
+    while ((ch = getch())) {
+        /* draw_curr_page(); */
+        /* int ch = getch(); */
+
         switch (ch) {
             case KEY_F(1): current_page = dashboard; break;
             case KEY_F(2): current_page = boards; break;
@@ -24,7 +26,14 @@ int main() {
             case 'q': case 27: // ESC or 'q' to quit
                 end_ui();
                 return 0;
+        /* sleep(1); */
         }
+        if(current_page == dashboard){
+            handle_sketch(ch);
+            draw_curr_page();
+            continue;
+        }
+        draw_curr_page();
     }
     
 
