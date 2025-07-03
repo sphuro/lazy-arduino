@@ -5,18 +5,13 @@
 
 int main() {
     init_ui();
-
-    // Load data BEFORE first draw
-    load_sketches(".");        // Or correct path like "~/Arduino"
+    load_sketches(".");
     board_count = get_boards(connected_boards, MAX_BOARDS);
-
     draw_curr_page();
-
     int ch;
     while ((ch = getch())) {
         /* draw_curr_page(); */
         /* int ch = getch(); */
-
         switch (ch) {
             case KEY_F(1): current_page = dashboard; break;
             case KEY_F(2): current_page = boards; break;
