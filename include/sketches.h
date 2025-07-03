@@ -1,14 +1,15 @@
 #ifndef SKETCH_H
+#include <ncurses.h>
 #define SKETCH_H
 
 
 #define MAX_SKETCHES 32
-#define SKETCH_NAME 128
+#define SKETCH_NAME_LEN 128
 
-extern char sketches[MAX_SKETCHES][SKETCH_NAME];
+extern char sketches[MAX_SKETCHES][SKETCH_NAME_LEN];
 extern int selected_sketch;
 
-void load_sketch(const char *path);
+void load_sketches(const char *path);
 void draw_sketches(WINDOW *win);
 void open_in_editor(const char *filename);
 void handle_sketch(int key);

@@ -1,4 +1,5 @@
 #ifndef BOARD_H
+#include <ncurses.h>
 #define BOARD_H
 
 #define BOARD_BUFFER 8192
@@ -14,6 +15,6 @@ extern int board_count;
 
 int get_boards(Board boards[], int max);
 void refresh_board_list(void);
-void draw_board(WINDOW *win);
+void draw_boards_panel(WINDOW *win);
 
 #endif

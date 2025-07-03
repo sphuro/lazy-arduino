@@ -5,7 +5,7 @@
 
 typedef struct{
 	int focus_panel;
-	Page_type current_page;
+	pagetype current_page;
 } appstate;
 
 extern appstate app_state;

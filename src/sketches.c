@@ -40,7 +40,25 @@ void draw_sketches(WINDOW *win){
 		mvwprintw(win, i+1, 2, "%s", sketches[i]);
 		if(i == selected_sketch) wattroff(win, A_REVERSE);
 	}
-	wrefresh(win);
+	wnoutrefresh(win);
+}
+
+void handle_sketch(int key) {
+    switch (key) {
+        case KEY_UP:
+        case 'k':
+            if (selected_sketch > 0)
+                selected_sketch--;
+            break;
+        case KEY_DOWN:
+        case 'j':
+            if (selected_sketch < MAX_SKETCHES - 1 && sketches[selected_sketch + 1][0])
+                selected_sketch++;
+            break;
+        case '\n':
+            open_in_editor(sketches[selected_sketch]);
+            break;
+    }
 }
 
 
@@ -54,6 +72,4 @@ void open_in_editor(const char *filename){
 	
 	refresh();
 }
-void handle_sketch(int key){
 
-}
