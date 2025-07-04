@@ -4,6 +4,8 @@
 #include <string.h>
 #include <ncurses.h>
 #include "board.h"
+#include "status.h"
+#include "ui.h"
 
 void run_command(const char *cmd){
 	FILE *fp = popen(cmd, "r");
@@ -14,13 +16,24 @@ void run_command(const char *cmd){
 
 	clear();
 	mvprintw(0, 0, "Output: [%s]", cmd);
+
+	start_loading();
 	char buffer[256];
 	int line =2;
+	nodelay(stdscr, TRUE);
 	while (fgets(buffer, sizeof(buffer), fp) != NULL) {
 		mvprintw(line++, 2, "%s", buffer);
-	
+		refresh();
+		load_anime();
+		draw_status(status_win);	
+		doupdate();
+		/* namps(100); */
 	}
 	pclose(fp);
+
+	stop_loading();
+	draw_status(status_win);
+	doupdate();
 	mvprintw(line+1, 2, "Press any key to return ... ");
 	getch();
 }
