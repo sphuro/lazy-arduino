@@ -1,128 +1,178 @@
-<p align="center">
-  <img src="assets/Group4.png" alt="Lazy Arduino Logo" width="200"/>
-</p>
 
+---
 
-# Lazy Arduino
+<table>
+  <tr>
+    <td width="120">
+      <img src="assets/Group4.png" width="100"/>
+    </td>
+    <td>
+      <h1>Lazy Arduino</h1>
+    </td>
+  </tr>
+</table>
 
-I am making a TUI for arduino cli that for new cli users.
+---
+***
 
-## Plan
+**Lazy Arduino** is a lightweight **terminal-based user interface (TUI)** for `arduino-cli`. It aims to make Arduino development accessible for users who are new to the command line, and for those working over **SSH** or on **low-resource systems** that cannot run the full Arduino IDE.
+
+---
+
+## Key Features
+
+- Minimalist, ncurses-powered TUI
+- Board detection and selection
+- Sketch browsing and selection
+- Compile and upload with logs
+- Serial monitor integration
+- Modular design with page-based navigation
+- Designed for SSH and low-end environments
+
+---
+
+## Project Goals
+
+- Abstract away the complexity of `arduino-cli` commands
+- Provide a fast, responsive UI that mirrors the Arduino IDE structure
+- Enable seamless use over terminal (SSH/local) without heavy GUI tools
+
+---
+
+## Setup and Status
+
+### Completed
 
 - [x] CLI Skeleton
+- [x] Sketch selection panel (basic implementation)
+
+### In Progress
+
+- [ ] Add interaction/functionality to Sketch panel
+- [ ] Status bar (`status.c`) – real-time sketch/board/page info
+
+### ⏭ Next Up
+
+- [ ] Config management (`config.c/.h`)
 - [ ] TUI Framework setup
 - [ ] `arduino-cli` wrapper module
 - [ ] Board/Port detection screen
-- [ ] Sketch selection screen
 - [ ] Compile/upload screen with logs
 - [ ] Serial monitor
 
+### Current Interface
 
-## Current view
+![TUI Preview](assets/image.png)
 
-![alt text](assets/image.png)
+---
 
+## File Structure
 
-## Planed File structure
+```
 
-  ```
 lazy-arduino/
 ├── include/
-│   ├── ui.h              # UI init/end and key bindings
-│   ├── sketches.h        # Sketch list & handling
-│   ├── boards.h          # Board panel & auto-refresh
-│   ├── logs.h            # Log panel
-│   ├── serial.h          # Serial monitor
-│   ├── status.h          # Status bar
-│   ├── pages.h           # Multi-page navigation
-│   ├── arduino.h         # Compile/upload logic
-│   ├── config.h          # Config management
-│   └── state.h           # Shared state (selected sketch/board/etc.)
+│   ├── arduino.h       # Compile/upload logic
+│   ├── boards.h        # Board panel and port detection
+│   ├── config.h        # User config handling
+│   ├── logs.h          # Compilation/upload log viewer
+│   ├── pages.h         # Multi-page navigation
+│   ├── serial.h        # Serial monitor
+│   ├── sketches.h      # Sketch selection panel
+│   ├── state.h         # Global shared state
+│   ├── status.h        # Status bar rendering
+│   └── ui.h            # UI layout and key bindings
 ├── src/
-│   ├── main.c            # Program entry
-│   ├── ui.c              # Init screen, layout
-│   ├── sketches.c        # Sketches panel logic
-│   ├── boards.c          # Boards panel (w/ pthread updates)
-│   ├── logs.c            # Compile/upload log viewer
-│   ├── serial.c          # Serial monitor backend
-│   ├── status.c          # Bottom bar info
-│   ├── pages.c           # Switch between: Dashboard, Board Manager, Library Manager
-│   ├── arduino.c         # Compile/upload wrapper
-│   ├── config.c          # User config loader
-│   └── state.c           # Global state management
+│   ├── arduino.c
+│   ├── boards.c
+│   ├── config.c
+│   ├── logs.c
+│   ├── main.c
+│   ├── pages.c
+│   ├── serial.c
+│   ├── sketches.c
+│   ├── state.c
+│   └── status.c
 
-  ```
-
-## What my Project is:
-- to remove the need for learning cli commands.
-- for some can use this who doesnt uses cli much often but want to use it over ssh.
-- if someone have low end sytem can use this instead of bulky arduino ide.
-
-## Logs
-- I am using wsl right now(yes :(  ) so to use the port for any micrcontroller so that wsl cna detect it i have installed `https://github.com/dorssel/usbipd-win/releases`
-and run `usbipd list` to list all the ports and then ` usbipd bind --busid <BUSID>` this binds the usb device on windows so that i can forward it and then run `usbipd attach --busid 3-1 --wsl`
-so that the usb device will be available in wsl.
-- you have to run the `usbpid` command before connecting the micrcontroller every time so that wsl can read it.
-
+```
 
 ---
 
-## `Lazy Arduino IDE` – TUI Pages & Layout Specification
+## USB Device Support on WSL
 
-This document outlines all the major **TUI pages**, their **sections/windows**, and the purpose of each. Also included: how a global `status bar` helps user interaction.
+If you're using **WSL (Windows Subsystem for Linux)** to interface with USB microcontrollers, you must forward the USB ports using [`usbipd-win`](https://github.com/dorssel/usbipd-win/releases).
+
+### Steps:
+
+1. Install `usbipd-win`
+2. List USB devices:
+```
+
+usbipd list
+
+```
+3. Bind the target device:
+```
+
+usbipd bind --busid <BUSID>
+
+```
+4. Attach device in WSL:
+```
+
+usbipd attach --busid <BUSID> --wsl
+
+```
+
+Repeat this process every time you connect a new microcontroller.
 
 ---
 
-## Page Overview
+## TUI Pages Overview
 
-| Page Key | Name             | Purpose                                   |
-| -------- | ---------------- | ----------------------------------------- |
-| `F1`     | Dashboard        | Main view: sketches, boards, logs, serial |
-| `F2`     | Board Manager    | View/Select boards, install/remove cores  |
-| `F3`     | Library Manager  | View/Install/Remove libraries             |
-| `F4`     | Example Sketches | Browse and import examples                |
-| `F5`     | Settings         | Editor, default board, theme, paths       |
+| Key      | Page             | Description                                  |
+|----------|------------------|----------------------------------------------|
+| `F1`     | Dashboard         | Sketches, Boards, Logs, Serial Monitor       |
+| `F2`     | Board Manager     | View/install boards and cores                |
+| `F3`     | Library Manager   | Manage libraries                             |
+| `F4`     | Example Sketches  | Browse/import official or core examples      |
+| `F5`     | Settings          | Configure default board, port, theme, editor |
 
 ---
 
 ## Navigation Model
 
-* Use `Tab` to cycle within panels.
-* Use `F1–F5` or `[ ← / → ]` to switch pages.
-* `q` always exits current page or program.
-* `Enter` or `e` edits/open items.
-* `c` compiles, `u` uploads, `s` saves.
+- `F1–F5`: Switch between pages
+- `Tab`: Cycle between panels within a page
+- `q`: Quit current page or program
+- `Enter` / `e`: Edit or open selection
+- `c`: Compile sketch
+- `u`: Upload to board
+- `s`: Save config
 
 ---
 
 ## Status Bar (`status.c`)
 
-The bottom bar across **all pages**, showing real-time status.
+A persistent bottom bar displays:
 
-```
-[Sketch: blink.ino]  [Board: ESP32 DevKit]  [Port: /dev/ttyUSB0]  [Page: Dashboard]  [Press F1–F5 | Tab | q]
-```
+**[Sketch: blink.ino]  [Board: ESP32 DevKit]  [Port: /dev/ttyUSB0]  [Page: Dashboard]  [F1–F5 | Tab | q]**
 
-This helps the user:
 
-* **Know what’s selected** (sketch/board)
-* **Current active page**
-* **Quick shortcuts**
+This provides live feedback on current selections and available shortcuts.
 
+### Rendering Example:
 ```c
-// pseudo rendering
 mvwprintw(status_win, 0, 1,
   "[Sketch: %s]  [Board: %s]  [Port: %s]  [Page: %s]",
    selected_sketch, selected_board, selected_port, current_page_name);
-```
+````
 
 ---
 
-##  Page Layouts
+## Page Layouts
 
----
-
-### `F1` – Dashboard
+### F1 — Dashboard
 
 ```
 +------------------+------------------------+
@@ -136,12 +186,9 @@ mvwprintw(status_win, 0, 1,
 |   Serial Monitor                         |
 |   [temp = 36.4]                          |
 +------------------------------------------+
-[Sketch: blink.ino] [Board: ESP32] ...
 ```
 
----
-
-###  `F2` – Board Manager
+### F2 — Board Manager
 
 ```
 +----------------------------------------+
@@ -156,12 +203,9 @@ mvwprintw(status_win, 0, 1,
 | Board Actions                          |
 | (u) Uninstall  (i) Install (r) Refresh |
 +----------------------------------------+
-[...]
 ```
 
----
-
-###  `F3` – Library Manager
+### F3 — Library Manager
 
 ```
 +----------------------------------------+
@@ -177,9 +221,7 @@ mvwprintw(status_win, 0, 1,
 +----------------------------------------+
 ```
 
----
-
-###  `F4` – Examples Browser
+### F4 — Examples Browser
 
 ```
 +--------------------------+
@@ -197,9 +239,7 @@ mvwprintw(status_win, 0, 1,
 +--------------------------+
 ```
 
----
-
-### `F5` – Settings Page
+### F5 — Settings Page
 
 ```
 +------------------------------------+
@@ -215,19 +255,32 @@ mvwprintw(status_win, 0, 1,
 
 ---
 
-## Future Extensions
+## Future Roadmap
 
-* JSON-based config system
-* Dynamic plugin panel (e.g. OTA uploads)
-* Git integration for sketches
-* Highlight logs/errors
+* JSON-based persistent configuration system
+* Plugin system for OTA upload, etc.
+* Git integration for sketch versioning
+* Error highlighting and color-coded logs
 
 ---
 
-## Benefits of This Design
+## Contributing
 
-* Mirrors Arduino IDE experience.
-* Pages are **modular**, and each gets its own C file.
-* Responsive layout with `ncurses`, easier to maintain.
-* `status.c` acts as the user compass.
+Pull requests are welcome. Please fork the repository and submit improvements via feature branches. If you plan large changes, open an issue for discussion first.
+
+---
+
+## License
+
+This project will be released under the **MIT License** — free to use, modify, and distribute, as long as attribution is preserved. See `LICENSE` for full terms.
+
+---
+
+## Acknowledgments
+
+* [`arduino-cli`](https://github.com/arduino/arduino-cli) — official CLI
+* [`ncurses`](https://invisible-island.net/ncurses/) — terminal UI foundation
+* Community feedback and contributions
+
+---
 
