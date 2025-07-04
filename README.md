@@ -51,7 +51,7 @@
 - [ ] Add interaction/functionality to Sketch panel
 - [ ] Status bar (`status.c`) – real-time sketch/board/page info
 
-### ⏭ Next Up
+### Next Up
 
 - [ ] Config management (`config.c/.h`)
 - [ ] TUI Framework setup
@@ -62,7 +62,7 @@
 
 ### Current Interface
 
-![TUI Preview](assets/image.png)
+![TUI Preview](assets/image2.png)
 
 ---
 
