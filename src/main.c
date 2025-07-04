@@ -32,10 +32,8 @@ int main() {
                 return 0;
         /* sleep(1); */
         }
-        if(current_page == dashboard){
+        if(app_state.current_page == dashboard){
             handle_sketch(ch);
-            draw_curr_page();
-            continue;
         }
         draw_curr_page();
     }

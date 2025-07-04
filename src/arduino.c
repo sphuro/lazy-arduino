@@ -60,7 +60,7 @@ void list_boards() {
 
 void compile_sketch(const char *sketch_path){
 	char cmd[512];
-	snprintf(cmd, sizeof(cmd), "arduino-cli complie -- fqbn arduino:avr:uno %s", sketch_path);
+	snprintf(cmd, sizeof(cmd), "arduino-cli compile -- fqbn arduino:avr:uno %s", sketch_path);
 	run_command(cmd);
 }
 

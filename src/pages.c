@@ -9,33 +9,6 @@
 #include "state.h"
 pagetype current_page = dashboard;
 
-/* WINDOW *sketch_win, *board_win, *log_win, *serial_win, *status_win; */
-
-/* void draw_dashboard() { */
-/*     int max_y, max_x; */
-/*     getmaxyx(stdscr, max_y, max_x); */
-
-/*     int mid_x = max_x / 2; */
-/*     int top_half = max_y * 0.5; */
-/*     int log_height = max_y * 0.2; */
-/*     int serial_height = max_y * 0.2; */
-
-/*     sketch_win = newwin(top_half, mid_x, 0, 0); */
-/*     board_win  = newwin(top_half, max_x - mid_x, 0, mid_x); */
-/*     log_win    = newwin(log_height, max_x, top_half, 0); */
-/*     serial_win = newwin(serial_height, max_x, top_half + log_height, 0); */
-/*     status_win = newwin(1, max_x, max_y - 1, 0); */
-
-/*     draw_sketches(sketch_win); */
-/*     draw_boards_panel(board_win); */
-/*     draw_logs(log_win); */
-/*     draw_serial(serial_win); */
-/*     draw_status(status_win); */
-
-/*     refresh();  // Force redraw to screen */
-/* } */
-
-extern WINDOW *sketch_win, *board_win, *log_win, *serial_win, *status_win;
 
 void draw_dashboard() {
     werase(sketch_win);
@@ -48,7 +21,7 @@ void draw_dashboard() {
     draw_boards_panel(board_win);
     draw_logs(log_win);
     draw_serial(serial_win);
-    draw_status(status_win);
+    /* draw_status(status_win); */
 
     doupdate();
     // Don't call refresh() unless using stdscr. Use wrefresh per window.
@@ -86,10 +59,13 @@ void draw_page(pagetype page) {
 
 void draw_curr_page(void) {
     draw_page(app_state.current_page);
+    draw_status(status_win);
+
+    doupdate();
 }
 
 
 void switch_page(int delta) {
-    current_page = (pagetype)((current_page + delta + total) % total);
+    app_state.current_page = (pagetype)((app_state.current_page + delta + total) % total);
 }
 
