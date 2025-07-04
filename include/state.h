@@ -3,8 +3,15 @@
 
 #include "pages.h"
 
+typedef enum{
+	focus_sketch,
+	focus_board,
+	focus_log,
+	focus_serial
+} focuspanel;
+
 typedef struct{
-	int focus_panel;
+	focuspanel focus_panel;
 	pagetype current_page;
 } appstate;
 
