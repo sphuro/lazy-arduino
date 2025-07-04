@@ -6,6 +6,7 @@
 #include "serial.h"
 #include "status.h"
 #include "ui.h"
+#include "state.h"
 pagetype current_page = dashboard;
 
 /* WINDOW *sketch_win, *board_win, *log_win, *serial_win, *status_win; */
@@ -84,7 +85,7 @@ void draw_page(pagetype page) {
 }
 
 void draw_curr_page(void) {
-    draw_page(current_page);
+    draw_page(app_state.current_page);
 }
 
 
