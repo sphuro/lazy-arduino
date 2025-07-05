@@ -3,6 +3,10 @@
 
 #include <ncurses.h>
 
+#define CP_STANDARD 1
+#define CP_HIGHLIGHT_BORDER 2
+#define CP_HIGHLIGHT_TAB 3
+
 extern WINDOW *sketch_win, *board_win, *log_win, *serial_win, *status_win;
 void init_ui();
 

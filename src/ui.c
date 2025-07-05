@@ -6,6 +6,7 @@
 #include "sketches.h"
 #include <ncurses.h>
 
+
 WINDOW *sketch_win, *board_win, *log_win, *serial_win, *status_win;
 
 void init_ui(){
@@ -14,6 +15,17 @@ void init_ui(){
     cbreak();
     keypad(stdscr, TRUE);
     curs_set(0);
+
+    if (has_colors() == TRUE) {
+        start_color();
+        // Define our color pairs
+        // Pair 1: Standard UI (White text on Blue background)
+        init_pair(CP_STANDARD, COLOR_WHITE, COLOR_BLUE);
+        // Pair 2: Highlighted Panel Border (Cyan text on Blue background)
+        init_pair(CP_HIGHLIGHT_BORDER, COLOR_CYAN, COLOR_BLUE);
+        // Pair 3: Highlighted Status Tab (White text on Black background)
+        init_pair(CP_HIGHLIGHT_TAB, COLOR_WHITE, COLOR_BLACK);
+    }
 
     int max_y, max_x;
     getmaxyx(stdscr, max_y, max_x);

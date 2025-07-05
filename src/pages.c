@@ -17,11 +17,17 @@ void draw_dashboard() {
     werase(serial_win);
     werase(status_win);
 
-    draw_sketches(sketch_win);
-    draw_boards_panel(board_win);
-    draw_logs(log_win);
-    draw_serial(serial_win);
+    /* draw_sketches(sketch_win); */
+    /* draw_boards_panel(board_win); */
+    /* draw_logs(log_win); */
+    /* draw_serial(serial_win); */
     /* draw_status(status_win); */
+
+    draw_sketches(sketch_win, app_state.focus_panel == focus_sketch);
+    draw_boards_panel(board_win, app_state.focus_panel == focus_board);
+    draw_logs(log_win, app_state.focus_panel == focus_log);
+    draw_serial(serial_win, app_state.focus_panel == focus_serial);
+    draw_status(status_win);
 
     doupdate();
     // Don't call refresh() unless using stdscr. Use wrefresh per window.

@@ -3,6 +3,7 @@
 #include <ncurses.h>
 #include <string.h>
 #include "board.h"
+#include "ui.h"
 
 Board connected_boards[MAX_BOARDS];
 int board_count = 0;
@@ -46,16 +47,38 @@ int get_boards(Board boards[], int max) {
     return count;
 }
 
-
-void draw_boards_panel(WINDOW *win){
+void draw_boards_panel(WINDOW *win, bool has_focus) {
+    werase(win);
+    /* int border_color = has_focus ? CP_HIGHLIGHT_BORDER : CP_STANDARD; */
+    int border_color = CP_HIGHLIGHT_BORDER;
+    if(has_focus) wattron(win, COLOR_PAIR(border_color));
     box(win, 0, 0);
+   if(has_focus) wattroff(win, COLOR_PAIR(border_color));
+
+    wattron(win, COLOR_PAIR(CP_STANDARD));
     mvwprintw(win, 0, 2, " Boards ");
-    if(board_count ==0 ) {
-        mvwprintw(win, 1,2, "No board detected");
+    if (board_count == 0) {
+        mvwprintw(win, 1, 2, "No boards detected");
     } else {
-        for(int i = 0; i< board_count; i++){
-            mvwprintw(win, i+1, 2, "%s (%s)", connected_boards[i].boardName, connected_boards[i].port);
+        for (int i = 0; i < board_count; i++) {
+            mvwprintw(win, i + 1, 2, "%s (%s)", connected_boards[i].boardName, connected_boards[i].port);
         }
     }
+    wattroff(win, COLOR_PAIR(CP_STANDARD));
     wnoutrefresh(win);
 }
+
+
+
+/* void draw_boards_panel(WINDOW *win){ */
+/*     box(win, 0, 0); */
+/*     mvwprintw(win, 0, 2, " Boards "); */
+/*     if(board_count ==0 ) { */
+/*         mvwprintw(win, 1,2, "No board detected"); */
+/*     } else { */
+/*         for(int i = 0; i< board_count; i++){ */
+/*             mvwprintw(win, i+1, 2, "%s (%s)", connected_boards[i].boardName, connected_boards[i].port); */
+/*         } */
+/*     } */
+/*     wnoutrefresh(win); */
+/* } */
