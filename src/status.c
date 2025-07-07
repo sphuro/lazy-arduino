@@ -36,7 +36,7 @@ void draw_status(WINDOW *win) {
     (void)max_y;
 
     // Set the background for the whole bar using our standard color pair
-    wbkgd(win, COLOR_PAIR(CP_STANDARD));
+    wbkgd(win, COLOR_PAIR(CP_STATUS_BAR));
     werase(win);
 
     // --- 1. Draw Page Indicators (Left Aligned) ---

@@ -1,57 +1,58 @@
 #include "ui.h"
-#include "status.h"
-#include "serial.h"
-#include "logs.h"
 #include "board.h"
+#include "logs.h"
+#include "serial.h"
 #include "sketches.h"
+#include "status.h"
 #include <ncurses.h>
-
 
 WINDOW *sketch_win, *board_win, *log_win, *serial_win, *status_win;
 
-void init_ui(){
-    initscr();
-    noecho();
-    cbreak();
-    keypad(stdscr, TRUE);
-    curs_set(0);
+void init_ui() {
+  initscr();
+  noecho();
+  cbreak();
+  keypad(stdscr, TRUE);
+  curs_set(0);
 
-    if (has_colors() == TRUE) {
-        start_color();
-        use_default_colors();
-        // Define our color pairs
-        // Pair 1: Standard UI (White text on Blue background)
-        init_pair(CP_STANDARD, COLOR_WHITE, COLOR_BLUE);
-        // Pair 2: Highlighted Panel Border (Cyan text on Blue background)
-        init_pair(CP_HIGHLIGHT_BORDER, COLOR_CYAN, COLOR_BLUE);
-        // Pair 3: Highlighted Status Tab (White text on Black background)
-        init_pair(CP_HIGHLIGHT_TAB, COLOR_WHITE, COLOR_BLACK);
-    }
+  if (has_colors() == TRUE) {
+    start_color();
+    use_default_colors();
+    // Define our color pairs
+    // Pair 1: Standard UI (White text on Blue background)
+    /* init_pair(CP_STANDARD, COLOR_WHITE, COLOR_BLUE); */
+    init_pair(CP_STANDARD, COLOR_WHITE, -1);
+    // Pair 2: Highlighted Panel Border (Cyan text on Blue background)
+    init_pair(CP_HIGHLIGHT_BORDER, COLOR_CYAN, -1);
+    // Pair 3: Highlighted Status Tab (White text on Black background)
+    init_pair(CP_HIGHLIGHT_TAB, COLOR_WHITE, COLOR_BLACK);
+    init_pair(CP_STATUS_BAR, COLOR_BLACK, COLOR_WHITE);
+  }
 
-    int max_y, max_x;
-    getmaxyx(stdscr, max_y, max_x);
+  int max_y, max_x;
+  getmaxyx(stdscr, max_y, max_x);
 
-    int mid_x = max_x / 2;
-    int top_half = max_y * 0.5;
-    int log_height = max_y * 0.2;
-    int serial_height = max_y * 0.2;
+  int mid_x = max_x / 2;
+  int top_half = max_y * 0.5;
+  int log_height = max_y * 0.2;
+  int serial_height = max_y * 0.2;
 
-    sketch_win = newwin(top_half, mid_x, 0, 0);
-    board_win  = newwin(top_half, max_x - mid_x, 0, mid_x);
-    log_win    = newwin(log_height, max_x, top_half, 0);
-    serial_win = newwin(serial_height, max_x, top_half + log_height, 0);
-    status_win = newwin(1, max_x, max_y - 1, 0);
+  sketch_win = newwin(top_half, mid_x, 0, 0);
+  board_win = newwin(top_half, max_x - mid_x, 0, mid_x);
+  log_win = newwin(log_height, max_x, top_half, 0);
+  serial_win = newwin(serial_height, max_x, top_half + log_height, 0);
+  status_win = newwin(1, max_x, max_y - 1, 0);
 
-    refresh();
+  refresh();
 }
 
-void end_ui(){
-    delwin(sketch_win);
-    delwin(board_win);
-    delwin(log_win);
-    delwin(serial_win);
-    delwin(status_win);
-    endwin();
+void end_ui() {
+  delwin(sketch_win);
+  delwin(board_win);
+  delwin(log_win);
+  delwin(serial_win);
+  delwin(status_win);
+  endwin();
 }
 
 /* #include <ncurses.h> */
@@ -66,7 +67,6 @@ void end_ui(){
 /* 	refresh(); */
 /* } */
 
-
 /* void end_ui(){ */
 /* 	endwin(); */
 /* } */
@@ -79,7 +79,7 @@ void end_ui(){
 /* 		"4. Exit" */
 /* 	}; */
 /* 	int choice =0, ch; */
-	
+
 /* 	while (1) { */
 /* 		clear(); */
 /* 		mvprintw(0, 0, "Lazy Arduino IDE"); */
@@ -106,11 +106,9 @@ void end_ui(){
 /*                     return; */
 /*                 break; */
 /* 	    case 'q': return;break; */
-	
+
 /* 	} */
 /* } */
 /* } */
 
 // ui.c
-
-
