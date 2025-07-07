@@ -18,6 +18,7 @@ void init_ui(){
 
     if (has_colors() == TRUE) {
         start_color();
+        use_default_colors();
         // Define our color pairs
         // Pair 1: Standard UI (White text on Blue background)
         init_pair(CP_STANDARD, COLOR_WHITE, COLOR_BLUE);

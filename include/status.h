@@ -2,9 +2,9 @@
 #define STATUS_H
 
 #include <ncurses.h>
-#include <stdbool.h> //for bool type
+#include <stdbool.h> 
 
-extern bool isloading;
+extern bool is_loading;
 
 void start_loading(void);
 void stop_loading(void);
