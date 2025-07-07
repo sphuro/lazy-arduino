@@ -62,7 +62,7 @@
 
 ### Current Interface
 
-![TUI Preview](assets/image2.png)
+![TUI Preview](assets/image3.png)
 
 ---
 
