@@ -6,7 +6,7 @@
 #include "status.h"
 #include <ncurses.h>
 
-WINDOW *sketch_win, *board_win, *log_win, *serial_win, *status_win;
+WINDOW *sketch_win, *board_win, *log_win, *serial_win, *status_win, *cmd_win;
 
 void init_ui() {
   initscr();
@@ -40,8 +40,9 @@ void init_ui() {
   sketch_win = newwin(top_half, mid_x, 0, 0);
   board_win = newwin(top_half, max_x - mid_x, 0, mid_x);
   log_win = newwin(log_height, max_x, top_half, 0);
-  serial_win = newwin(serial_height, max_x, top_half + log_height, 0);
-  status_win = newwin(1, max_x, max_y - 1, 0);
+  serial_win = newwin(serial_height + 2, max_x, top_half + log_height, 0);
+  status_win = newwin(1, max_x, max_y - 2, 0);
+  cmd_win = newwin(1, max_x, max_y - 1, 0);
 
   refresh();
 }
@@ -52,6 +53,7 @@ void end_ui() {
   delwin(log_win);
   delwin(serial_win);
   delwin(status_win);
+  delwin(cmd_win);
   endwin();
 }
 

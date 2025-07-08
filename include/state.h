@@ -3,16 +3,15 @@
 
 #include "pages.h"
 
-typedef enum{
-	focus_sketch,
-	focus_board,
-	focus_log,
-	focus_serial
-} focuspanel;
+typedef enum { mode_normal, mode_command } appmode;
 
-typedef struct{
-	focuspanel focus_panel;
-	pagetype current_page;
+typedef enum { focus_sketch, focus_board, focus_log, focus_serial } focuspanel;
+
+typedef struct {
+  focuspanel focus_panel;
+  pagetype current_page;
+  appmode mode;
+  char command_buffer[256];
 } appstate;
 
 extern appstate app_state;

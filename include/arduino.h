@@ -4,6 +4,6 @@
 void list_boards(void);
 void compile_sketch(const char *filename);
 void upload_sketch(const char *filename, const char *port);
+void process_cmd(const char *cmd);
 
 #endif
-
