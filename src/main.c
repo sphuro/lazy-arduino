@@ -93,7 +93,9 @@ int main() {
         break;
       }
     }
-    if (app_state.current_page == dashboard) {
+    if ((app_state.current_page == dashboard) &&
+        (app_state.focus_panel == sketches) &&
+        (app_state.mode == mode_normal)) {
       handle_sketch(ch);
     }
     draw_curr_page();
