@@ -79,8 +79,11 @@ int main() {
       case KEY_BACKSPACE:
       case 127:
       case 8:
-        if (len > 1) { // Don't delete the leading ':'
-          app_state.command_buffer[len - 1] = '\0';
+        /* if (len > 1) { // Don't delete the leading ':' */
+        app_state.command_buffer[len - 1] = '\0';
+        /* } */
+        if (len = 0) {
+          app_state.mode = mode_normal;
         }
         break;
       default:
