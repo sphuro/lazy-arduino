@@ -10,7 +10,8 @@
 
 bool is_loading = false;
 static int loading_idx = 0;
-static const char *page_names[] = {"Dashboard", "Boards", "Libraries", "Cores", "Examples"};
+/* static const char *page_names[] = {"Dashboard", "Boards", "Libraries", "Cores", "Examples"}; */
+static const char *page_names[] = {"Dashboard", "Boards", "Libraries", "Cores", "Examples", "Color Picker"};
 static const char *panel_names[] = {"Sketches", "Boards", "Logs", "Serial"};
 static const char spinner[] = "|/-\\";
 

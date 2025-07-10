@@ -7,6 +7,7 @@ typedef enum {
 	libraries,
 	cores,
 	examples,
+	color_picker,
 	total
 } pagetype;
 

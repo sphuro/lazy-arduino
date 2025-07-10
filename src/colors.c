@@ -3,8 +3,9 @@
 #include <string.h>
 #include <ncurses.h>
 #include "colors.h"
+#include "ui.h"
 
-void hextorgb(const char *hex_str, rgb_color *clr){
+void hex_to_rgb(const char *hex_str, rgb_color *clr){
     long hex_val = strtol(hex_str, NULL, 16);
     clr->r = (hex_val >> 16) & 0xFF;
     clr->g = (hex_val >> 8) & 0xFF;
@@ -22,7 +23,7 @@ int rgb_to_256(rgb_color *color) {
 void draw_color_picker(WINDOW *win) {
 
     rgb_color my_color;
-    hextorgb("89B4FA", &my_color);
+    hex_to_rgb("89B4FA", &my_color);
     int color_index = rgb_to_256(&my_color);
 
     init_pair(100, color_index, color_index);
@@ -32,4 +33,11 @@ void draw_color_picker(WINDOW *win) {
     wattroff(win, COLOR_PAIR(100));
 
     wnoutrefresh(win);
+}
+
+void apply_theme_hex(const char *hex_str){
+    rgb_color new_color;
+    hex_to_rgb(hex_str, &new_color);
+    int color_index = rgb_to_256(&new_color);
+    apply_theme(color_index);
 }

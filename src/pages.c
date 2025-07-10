@@ -7,6 +7,7 @@
 #include "status.h"
 #include "ui.h"
 #include "state.h"
+#include "color_picker.h"
 pagetype current_page = dashboard;
 
 
@@ -55,6 +56,10 @@ void draw_page(pagetype page) {
         case examples:
             erase();
             mvprintw(1, 2, "[Examples Browser] Under construction");
+            break;
+        case color_picker:
+            erase();
+            draw_color_picker_page();
             break;
         default:
             erase();

@@ -3,10 +3,22 @@
 #include "logs.h"
 #include "serial.h"
 #include "sketches.h"
+#include "colors.h"
 #include "status.h"
 #include <ncurses.h>
 
 WINDOW *sketch_win, *board_win, *log_win, *serial_win, *status_win, *cmd_win;
+
+void apply_theme(int base_color_256) {
+    // Redefine your core color pairs using the new base color
+    init_pair(CP_STATUS_BAR, COLOR_BLACK, base_color_256);
+    init_pair(CP_STATUS_NORMAL, COLOR_BLACK, base_color_256);
+    init_pair(CP_HIGHLIGHT_BORDER, base_color_256, -1); // Use the color for borders
+
+    // Example: Highlight tab with the new color
+    init_pair(CP_HIGHLIGHT_TAB, base_color_256, -1);
+}
+
 
 void resize_w(){
   int max_y, max_x;
@@ -67,28 +79,30 @@ void init_ui() {
     init_pair(CP_HIGHLIGHT_BORDER, COLOR_CYAN, -1);
     // Pair 3: Highlighted Status Tab (White text on Black background)
     /* init_pair(CP_HIGHLIGHT_TAB, COLOR_WHITE, COLOR_BLACK); */
-    init_pair(CP_HIGHLIGHT_TAB, COLOR_WHITE, -1);
+    init_pair(CP_HIGHLIGHT_TAB, COLOR_CYAN, -1);
     init_pair(CP_STATUS_BAR, COLOR_BLACK, COLOR_CYAN);
     init_pair(CP_STATUS_NORMAL ,COLOR_BLACK, COLOR_CYAN);
     init_pair(CP_STATUS_COMMAND,COLOR_BLACK, COLOR_YELLOW);
   
-    resize_w();
+    /* resize_w(); */
   }
 
-  int max_y, max_x;
-  getmaxyx(stdscr, max_y, max_x);
+  /* int max_y, max_x; */
+  /* getmaxyx(stdscr, max_y, max_x); */
 
-  int mid_x = max_x / 2;
-  int top_half = max_y * 0.5;
-  int log_height = max_y * 0.2;
-  int serial_height = max_y * 0.2;
+  /* int mid_x = max_x / 2; */
+  /* int top_half = max_y * 0.5; */
+  /* int log_height = max_y * 0.2; */
+  /* int serial_height = max_y * 0.2; */
 
-  sketch_win = newwin(top_half, mid_x, 0, 0);
-  board_win = newwin(top_half, max_x - mid_x, 0, mid_x);
-  log_win = newwin(log_height, max_x, top_half, 0);
-  serial_win = newwin(serial_height + 2, max_x, top_half + log_height, 0);
-  status_win = newwin(1, max_x, max_y - 2, 0);
-  cmd_win = newwin(1, max_x, max_y - 1, 0);
+  /* sketch_win = newwin(top_half, mid_x, 0, 0); */
+  /* board_win = newwin(top_half, max_x - mid_x, 0, mid_x); */
+  /* log_win = newwin(log_height, max_x, top_half, 0); */
+  /* serial_win = newwin(serial_height + 2, max_x, top_half + log_height, 0); */
+  /* status_win = newwin(1, max_x, max_y - 2, 0); */
+  /* cmd_win = newwin(1, max_x, max_y - 1, 0); */
+
+  resize_w();
 
   refresh();
 }

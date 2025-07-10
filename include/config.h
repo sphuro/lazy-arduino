@@ -1,15 +1,11 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#define CONFIG_PATH "~/.lazyduino/config.ini"
-char config_path[256];
-const char *home_dir = getenv("HOME");
-if (home_dir) {
-    snprintf(config_path, sizeof(config_path), "%s/.lazyduino/config.ini", home_dir);
-} else {
-	
-}
+#define CONFIG_FILE_NAME ".lazyduino/config.ini"
+extern char config_path[256];
 
+
+void init_config(void);
 void load_config(void);
 void save_config(void);
 
