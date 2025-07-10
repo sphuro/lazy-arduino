@@ -60,15 +60,17 @@ void init_ui() {
   if (has_colors() == TRUE) {
     start_color();
     use_default_colors();
-    // Define our color pairs
     // Pair 1: Standard UI (White text on Blue background)
     /* init_pair(CP_STANDARD, COLOR_WHITE, COLOR_BLUE); */
     init_pair(CP_STANDARD, COLOR_WHITE, -1);
     // Pair 2: Highlighted Panel Border (Cyan text on Blue background)
     init_pair(CP_HIGHLIGHT_BORDER, COLOR_CYAN, -1);
     // Pair 3: Highlighted Status Tab (White text on Black background)
-    init_pair(CP_HIGHLIGHT_TAB, COLOR_WHITE, COLOR_BLACK);
-    init_pair(CP_STATUS_BAR, COLOR_BLACK, COLOR_WHITE);
+    /* init_pair(CP_HIGHLIGHT_TAB, COLOR_WHITE, COLOR_BLACK); */
+    init_pair(CP_HIGHLIGHT_TAB, COLOR_WHITE, -1);
+    init_pair(CP_STATUS_BAR, COLOR_BLACK, COLOR_CYAN);
+    init_pair(CP_STATUS_NORMAL ,COLOR_BLACK, COLOR_CYAN);
+    init_pair(CP_STATUS_COMMAND,COLOR_BLACK, COLOR_YELLOW);
   
     resize_w();
   }
