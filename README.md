@@ -48,8 +48,8 @@
 
 ### In Progress
 
-- [ ] Add interaction/functionality to Sketch panel
-- [ ] Status bar (`status.c`) – real-time sketch/board/page info
+- [x] Add interaction/functionality to Sketch panel
+- [x] Status bar (`status.c`) – real-time sketch/board/page info
 
 ### Next Up
 
