@@ -32,7 +32,6 @@ void run_command(const char *cmd) {
     load_anime();
     draw_status(status_win);
     doupdate();
-    /* namps(100); */
   }
   pclose(fp);
 

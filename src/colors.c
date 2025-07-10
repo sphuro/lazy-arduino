@@ -29,7 +29,7 @@ void draw_color_picker(WINDOW *win) {
     init_pair(100, color_index, color_index);
 
     wattron(win, COLOR_PAIR(100));
-    mvwprintw(win, 5, 5, "      "); // Draw a block of color
+    mvwprintw(win, 5, 5, "      "); 
     wattroff(win, COLOR_PAIR(100));
 
     wnoutrefresh(win);

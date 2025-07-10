@@ -68,17 +68,3 @@ void draw_boards_panel(WINDOW *win, bool has_focus) {
     wnoutrefresh(win);
 }
 
-
-
-/* void draw_boards_panel(WINDOW *win){ */
-/*     box(win, 0, 0); */
-/*     mvwprintw(win, 0, 2, " Boards "); */
-/*     if(board_count ==0 ) { */
-/*         mvwprintw(win, 1,2, "No board detected"); */
-/*     } else { */
-/*         for(int i = 0; i< board_count; i++){ */
-/*             mvwprintw(win, i+1, 2, "%s (%s)", connected_boards[i].boardName, connected_boards[i].port); */
-/*         } */
-/*     } */
-/*     wnoutrefresh(win); */
-/* } */

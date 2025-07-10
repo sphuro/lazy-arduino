@@ -31,14 +31,12 @@ void load_anime(void) {
     loading_idx = (loading_idx + 1) % (sizeof(spinner) - 1);
 }
 
-// src/status.c
 
 void draw_status(WINDOW *win) {
     int max_y, max_x;
     getmaxyx(win, max_y, max_x);
     (void)max_y;
 
-    // 1. Select color pair based on mode
     int status_color_pair = CP_STATUS_NORMAL;
     const char* mode_str = "NORMAL >>";
     if (app_state.mode == mode_command) {
@@ -46,28 +44,22 @@ void draw_status(WINDOW *win) {
         mode_str = "COMMAND >>";
     }
 
-    // 2. Apply the background color for the whole bar
     wbkgd(win, COLOR_PAIR(status_color_pair));
     werase(win);
 
-    // 3. Draw the mode indicator on the left
     wattron(win, COLOR_PAIR(status_color_pair));
     mvwprintw(win, 0, 1, "%s", mode_str);
     wattroff(win, COLOR_PAIR(status_color_pair));
 
 
-    // --- The rest of your function to draw page indicators and right status ---
-    // Make sure to use the correct color pair for the text if needed
-    // For example, when drawing the F-keys:
-    int current_pos = strlen(mode_str) + 2; // Position text after the mode indicator
+    int current_pos = strlen(mode_str) + 2; 
     for (int i = 0; i < total; i++) {
         if (i == app_state.current_page) {
-             wattron(win, COLOR_PAIR(CP_HIGHLIGHT_TAB) | A_BOLD); // Highlight current page tab
+             wattron(win, COLOR_PAIR(CP_HIGHLIGHT_TAB) | A_BOLD);
         } else {
              wattron(win, COLOR_PAIR(status_color_pair));
         }
         mvwprintw(win, 0, current_pos, " F%d:%s ", i + 1, page_names[i]);
-        // ... turn attributes off ...
         current_pos += strlen(page_names[i]) + 6;
     }
     char right_status[128];
@@ -79,53 +71,9 @@ void draw_status(WINDOW *win) {
         snprintf(right_status, sizeof(right_status), "Board: %s | Focus: %s (TAB)", board_status_str, focus_str);
     }
     
-    // The text will be drawn with the window's default color pair (CP_STANDARD)
     mvwprintw(win, 0, max_x - strlen(right_status) - 1, "%s", right_status);
 
     wnoutrefresh(win);
 
 }
-
-/* void draw_status(WINDOW *win) { */
-/*     int max_y, max_x; */
-/*     getmaxyx(win, max_y, max_x); */
-/*     (void)max_y; */
-
-/*     // Set the background for the whole bar using our standard color pair */
-/*     wbkgd(win, COLOR_PAIR(CP_STATUS_BAR)); */
-/*     werase(win); */
-
-/*     // --- 1. Draw Page Indicators (Left Aligned) --- */
-/*     int current_pos = 1; */
-/*     for (int i = 0; i < total; i++) { */
-/*         // Use a different color pair for the highlighted tab */
-/*         if (i == app_state.current_page) { */
-/*             wattron(win, COLOR_PAIR(CP_HIGHLIGHT_TAB)); */
-/*         } */
-
-/*         mvwprintw(win, 0, current_pos, " F%d:%s ", i + 1, page_names[i]); */
-
-/*         if (i == app_state.current_page) { */
-/*             wattroff(win, COLOR_PAIR(CP_HIGHLIGHT_TAB)); */
-/*         } */
-        
-/*         current_pos += strlen(page_names[i]) + 6; */
-/*     } */
-
-/*     // --- 2. Draw Status Indicators (Right Aligned) --- */
-/*     char right_status[128]; */
-/*     if (is_loading) { */
-/*         snprintf(right_status, sizeof(right_status), "Working... %c", spinner[loading_idx]); */
-/*     } else { */
-/*         const char *board_status_str = (board_count > 0) ? "Connected" : "No Board"; */
-/*         const char *focus_str = panel_names[app_state.focus_panel]; */
-/*         snprintf(right_status, sizeof(right_status), "Board: %s | Focus: %s (TAB)", board_status_str, focus_str); */
-/*     } */
-    
-/*     // The text will be drawn with the window's default color pair (CP_STANDARD) */
-/*     mvwprintw(win, 0, max_x - strlen(right_status) - 1, "%s", right_status); */
-
-/*     wnoutrefresh(win); */
-/* } */
-
 

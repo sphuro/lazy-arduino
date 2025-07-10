@@ -48,11 +48,10 @@ void open_in_editor(const char *filename) {
   endwin();
   const char *editor = getenv("EDITOR");
   if (!editor)
-    editor = "vim"; // Default editor
+    editor = "vim";
   char cmd[512];
   snprintf(cmd, sizeof(cmd), "%s %s", editor, filename);
   system(cmd);
-  // After editor exits, we need to re-initialize the screen
   initscr();
   refresh();
 }
@@ -69,9 +68,7 @@ void draw_sketches(WINDOW *win, bool has_focus) {
   wattroff(win, COLOR_PAIR(CP_STANDARD));
 
   for (int i = 0; i < MAX_SKETCHES && sketches[i][0]; i++) {
-    // Highlight the selected line
     if (i == selected_sketch) {
-      // Use the highlight color pair if the panel has focus
       wattron(win, has_focus ? COLOR_PAIR(CP_HIGHLIGHT_TAB) : A_REVERSE);
     } else {
       wattron(win, COLOR_PAIR(CP_STANDARD));
