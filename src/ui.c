@@ -8,6 +8,48 @@
 
 WINDOW *sketch_win, *board_win, *log_win, *serial_win, *status_win, *cmd_win;
 
+void resize_w(){
+  int max_y, max_x;
+    getmaxyx(stdscr, max_y, max_x);
+
+    // --- Robust Layout Calculation ---
+    // Reserve space for the bottom bars first.
+    int main_area_height = max_y - 2;
+    int status_bar_y = max_y - 2;
+    int cmd_bar_y = max_y - 1;
+
+    // Divide the main area proportionally.
+    int mid_x = max_x / 2;
+    int top_half_h = main_area_height / 2;
+    int bottom_half_h = main_area_height - top_half_h;
+    int log_h = bottom_half_h / 2;
+    int serial_h = bottom_half_h - log_h;
+
+    int bottom_start_y = top_half_h;
+    int serial_start_y = bottom_start_y + log_h;
+
+    // --- Clean Up Old Windows ---
+    // This prevents memory leaks on resize.
+    if (sketch_win) delwin(sketch_win);
+    if (board_win) delwin(board_win);
+    if (log_win) delwin(log_win);
+    if (serial_win) delwin(serial_win);
+    if (status_win) delwin(status_win);
+    if (cmd_win) delwin(cmd_win);
+
+    // --- Create New Windows with New Dimensions ---
+    sketch_win = newwin(top_half_h, mid_x, 0, 0);
+    board_win = newwin(top_half_h, max_x - mid_x, 0, mid_x);
+    log_win = newwin(log_h, max_x, bottom_start_y, 0);
+    serial_win = newwin(serial_h, max_x, serial_start_y, 0);
+    status_win = newwin(1, max_x, status_bar_y, 0);
+    cmd_win = newwin(1, max_x, cmd_bar_y, 0);
+
+    // Mark the screen as needing a full redraw.
+    clear();
+    refresh();
+}
+
 void init_ui() {
   initscr();
   noecho();
@@ -27,6 +69,8 @@ void init_ui() {
     // Pair 3: Highlighted Status Tab (White text on Black background)
     init_pair(CP_HIGHLIGHT_TAB, COLOR_WHITE, COLOR_BLACK);
     init_pair(CP_STATUS_BAR, COLOR_BLACK, COLOR_WHITE);
+  
+    resize_w();
   }
 
   int max_y, max_x;
@@ -57,60 +101,4 @@ void end_ui() {
   endwin();
 }
 
-/* #include <ncurses.h> */
-/* #include "arduino.h" */
 
-/* void init_ui(){ */
-/* 	initscr(); */
-/* 	noecho(); */
-/* 	cbreak(); */
-/* 	keypad(stdscr, TRUE); */
-/* 	curs_set(0); */
-/* 	refresh(); */
-/* } */
-
-/* void end_ui(){ */
-/* 	endwin(); */
-/* } */
-
-/* void main_menu(){ */
-/* 	const char *options[] = { */
-/* 		"1. List Connected Boards", */
-/* 		"2. Compile Sketch", */
-/* 		"3. Upload Sketch", */
-/* 		"4. Exit" */
-/* 	}; */
-/* 	int choice =0, ch; */
-
-/* 	while (1) { */
-/* 		clear(); */
-/* 		mvprintw(0, 0, "Lazy Arduino IDE"); */
-/* 		for (int i =0; i <4 ; i++) { */
-/* 			if(i == choice)	attron(A_REVERSE); */
-/* 			mvprintw(i+2, 2, options[i]); */
-/* 			attroff(A_REVERSE); */
-/* 		} */
-
-/* 		ch = getch(); */
-/*         switch (ch) { */
-/*             case KEY_UP:    choice = (choice - 1 + 4) % 4; break; */
-/*             case 'k':    choice = (choice - 1 + 4) % 4; break; */
-/*             case KEY_DOWN:  choice = (choice + 1) % 4; break; */
-/*             case 'j':  choice = (choice + 1) % 4; break; */
-/*             case '\n': */
-/*                 if (choice == 0) */
-/*                     list_boards(); */
-/*                 else if (choice == 1) */
-/*                     compile_sketch("example/example.ino"); */
-/*                 else if (choice == 2) */
-/*                     upload_sketch("example/example.ino", "/dev/ttyUSB0"); */
-/*                 else if (choice == 3) */
-/*                     return; */
-/*                 break; */
-/* 	    case 'q': return;break; */
-
-/* 	} */
-/* } */
-/* } */
-
-// ui.c

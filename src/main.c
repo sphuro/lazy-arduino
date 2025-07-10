@@ -33,6 +33,9 @@ int main() {
     /* int ch = getch(); */
     if (app_state.mode == mode_normal) {
       switch (ch) {
+      case KEY_RESIZE:
+        resize_w();
+        break;
       case ':':
         app_state.mode = mode_command;
         strcpy(app_state.command_buffer, ":");
@@ -82,7 +85,7 @@ int main() {
         /* if (len > 1) { // Don't delete the leading ':' */
         app_state.command_buffer[len - 1] = '\0';
         /* } */
-        if (len = 0) {
+        if (len <= 1) {
           app_state.mode = mode_normal;
         }
         break;
