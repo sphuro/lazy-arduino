@@ -4,6 +4,8 @@
 #include "sketches.h"
 #include "status.h"
 #include "ui.h"
+#include "state.h"
+#include "colors.h"
 #include <complex.h>
 #include <ncurses.h>
 #include <stdio.h>
@@ -30,7 +32,6 @@ void run_command(const char *cmd) {
     load_anime();
     draw_status(status_win);
     doupdate();
-    /* namps(100); */
   }
   pclose(fp);
 
@@ -79,12 +80,13 @@ void upload_sketch(const char *sketch_path, const char *port) {
 
 void process_cmd(const char *cmd) {
   char filename[128];
+  char hex_color[8];
 
   if (sscanf(cmd, ":newfile %s", filename) == 1) {
     if (!strstr(filename, ".ino")) {
       strcat(filename, ".ino");
     }
-    FILE *file = fopen(filename, "w");
+   FILE *file = fopen(filename, "w");
     if (file) {
       fprintf(file, "void setup() {\n");
       fprintf(file, "  // put your setup code here, to run once:\n\n");
@@ -102,7 +104,14 @@ void process_cmd(const char *cmd) {
       add_log("Error: Could not create file.");
     }
 
-  } else {
+  }else if(sscanf(cmd, ":color #%s", hex_color) == 1){
+    char log_msg[64];
+    snprintf(log_msg, sizeof(log_msg), "Set color to #%s", hex_color);
+    add_log(log_msg);
+    apply_theme_hex(hex_color);
+  } else if(strcmp(cmd, ":color") == 0){
+    app_state.current_page = color_picker;
+  }else {
     add_log("Error: unknown command");
   }
 }

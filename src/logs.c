@@ -31,12 +31,3 @@ void draw_logs(WINDOW *win, bool has_focus) {
     wattroff(win, COLOR_PAIR(CP_STANDARD));
     wnoutrefresh(win);
 }
-
-/* void draw_logs(WINDOW *win){ */
-/*     box(win, 0,0); */
-/*     mvwprintw(win, 0, 2, " Logs "); */
-/*     for(int i = 0; i <  log_count; i++){ */
-/*         mvwprintw(win, i+1, 2, "%s", log_lines[i]); */
-/*     } */
-/*     wnoutrefresh(win); */
-/* } */

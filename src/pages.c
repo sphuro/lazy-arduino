@@ -7,6 +7,7 @@
 #include "status.h"
 #include "ui.h"
 #include "state.h"
+#include "color_picker.h"
 pagetype current_page = dashboard;
 
 
@@ -16,12 +17,6 @@ void draw_dashboard() {
     werase(log_win);
     werase(serial_win);
     werase(status_win);
-
-    /* draw_sketches(sketch_win); */
-    /* draw_boards_panel(board_win); */
-    /* draw_logs(log_win); */
-    /* draw_serial(serial_win); */
-    /* draw_status(status_win); */
 
     draw_sketches(sketch_win, app_state.focus_panel == focus_sketch);
     draw_boards_panel(board_win, app_state.focus_panel == focus_board);
@@ -55,6 +50,10 @@ void draw_page(pagetype page) {
         case examples:
             erase();
             mvprintw(1, 2, "[Examples Browser] Under construction");
+            break;
+        case color_picker:
+            erase();
+            draw_color_picker_page();
             break;
         default:
             erase();

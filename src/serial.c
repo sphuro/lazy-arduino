@@ -28,9 +28,3 @@ void draw_serial(WINDOW *win, bool has_focus) {
     wnoutrefresh(win);
 }
 
-/* void draw_serial(WINDOW *win){ */
-/*     box(win, 0, 0); */
-/*     mvwprintw(win, 0, 2, " Serial Monitor "); */
-/*     mvwprintw(win, 1, 2, "Waiting for data..."); */
-/*     wnoutrefresh(win); */
-/* } */
