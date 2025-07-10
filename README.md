@@ -62,8 +62,11 @@
 
 ### Current Interface
 
-![TUI Preview](assets/image3.png)
+#### Normal Mode
+![alt text](assets/normalmode.png)
 
+#### Command Mode
+![alt text](assets/commandmode.png)
 ---
 
 ## File Structure
