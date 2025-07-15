@@ -73,7 +73,7 @@ void unimplemented_input(int key) {
     (void)key; // No action
 }
 
-void color_picker_init() { erase(); }
+void color_picker_init(){erase(); }
 void color_picker_draw() { draw_color_picker_page(); }
 void color_picker_input(int key) { handle_color_picker_input(key); }
 
@@ -102,6 +102,9 @@ void draw_current_page() {
     draw_status(status_win);
 }
 
+void draw_status_bar(){
+    draw_status(status_win);
+}
 void handle_current_page_input(int key) {
     const Page *page = &page_registry[app_state.current_idx];
     if (page->ipt) {

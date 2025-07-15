@@ -23,6 +23,7 @@ extern const int NUM_PAGES;
 
 void init_current_page(void);
 void draw_current_page(void);
+void draw_status_bar(void);
 void handle_current_page_input(int key);
 void resize_current_page(void);
 void destroy_current_page(void);
