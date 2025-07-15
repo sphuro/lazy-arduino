@@ -136,7 +136,7 @@ void switch_page(int new_page_index) {
     if (new_page_index < 0 || new_page_index >= NUM_PAGES || new_page_index == app_state.current_idx) {
         return;
     }
-    /* destroy_current_page(); */
+    destroy_current_page();
     app_state.current_idx = new_page_index;
     app_state.focus_idx = 0; // Reset focus on page switch
     init_current_page();
