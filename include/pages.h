@@ -1,20 +1,31 @@
 #ifndef PAGES_H
 #define PAGES_H
 
-typedef enum {
-	dashboard =0,
-	boards,
-	libraries,
-	cores,
-	examples,
-	color_picker,
-	total
-} pagetype;
+#include "panel.h"
 
-extern pagetype current_page;
+typedef void (*page_init)(void);
+typedef void (*page_drw)(void);
+typedef void (*page_ipt)(int key);
+typedef void (*page_rsize)(void);
+typedef void (*page_dest)(void);
 
-void draw_page(pagetype page);
-void switch_page(int delta);
-void draw_curr_page(void);
+typedef struct {
+    const char *name;
+    page_init init;
+    page_drw drw;
+    page_ipt ipt;
+    page_rsize resize;
+    page_dest destroy;
+} Page;
 
-#endif
+extern const Page page_registry[];
+extern const int NUM_PAGES;
+
+void init_current_page(void);
+void draw_current_page(void);
+void handle_current_page_input(int key);
+void resize_current_page(void);
+void destroy_current_page(void);
+void switch_page(int page_idx);
+
+#endif // PAGES_H

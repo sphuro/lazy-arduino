@@ -1,32 +1,43 @@
-# Makefile for Lazy Arduino TUI
-
 CC = gcc
-CFLAGS = -Wall -Iinclude
+
+CFLAGS = -Wall -Wextra -g -Iinclude
+
 LDFLAGS = -lncurses
+
+TARGET = lazy-arduino
 
 SRC_DIR = src
 OBJ_DIR = obj
-BIN = lazy-arduino
+INCLUDE_DIR = include
 
 SRCS = $(wildcard $(SRC_DIR)/*.c)
+
 OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
 
-.PHONY: all clean run
+DEPS = $(wildcard $(INCLUDE_DIR)/*.h)
 
-all: $(OBJ_DIR) $(BIN)
+.PHONY: all
+all: $(TARGET)
 
-$(OBJ_DIR):
-	mkdir -p $(OBJ_DIR)
+$(TARGET): $(OBJS)
+	@echo "Linking object files to create executable..."
+	$(CC) $(OBJS) -o $(TARGET) $(LDFLAGS)
+	@echo "Build complete! Executable is '$(TARGET)'."
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(DEPS)
+	@mkdir -p $(OBJ_DIR)
+	@echo "Compiling $< -> $@"
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(BIN): $(OBJS)
-	$(CC) $(OBJS) -o $@ $(LDFLAGS)
-
+.PHONY: run
 run: all
-	./$(BIN)
+	./$(TARGET)
 
+.PHONY: clean
 clean:
-	rm -rf $(OBJ_DIR) $(BIN)
+	@echo "Cleaning up build files..."
+	rm -f $(TARGET)
+	rm -rf $(OBJ_DIR)
+	@echo "Cleanup complete."
+
 
