@@ -1,12 +1,13 @@
-#include "arduino.h"
 #include "board.h"
+#include "command.h"
 #include "pages.h"
 #include "sketches.h"
 #include "state.h"
 #include "ui.h"
+#include "logs.h"
 #include <ncurses.h>
 #include <string.h>
-#include "color_picker.h"
+#include <stdbool.h>
 
 void draw_command_bar() {
     werase(cmd_win);
@@ -17,86 +18,89 @@ void draw_command_bar() {
     wnoutrefresh(cmd_win);
 }
 
+
 int main() {
     init_ui();
 
-    app_state.current_page = dashboard;
-    app_state.focus_panel = focus_sketch;
+    app_state.current_idx = 0; // Dashboard
+    app_state.focus_idx = 0;   // Sketches panel
     app_state.mode = mode_normal;
 
     load_sketches(".");
     board_count = get_boards(connected_boards, MAX_BOARDS);
+    add_log("Welcome to lazy-arduino!");
 
-    draw_curr_page();
+    init_current_page();
+    
+    // Initial draw
+    draw_current_page();
+    draw_command_bar();
+    doupdate();
+
     int ch;
-    while ((ch = getch())) {
-
-        if (app_state.current_page == color_picker) {
-            handle_color_picker_input(ch);
-        } else if (app_state.mode == mode_command) {
+    // Fixed event loop - draw first, then wait for input, then process
+    while ((ch = getch()) != EOF) {
+        // Process the input first
+        if (app_state.mode == mode_command) {
             int len = strlen(app_state.command_buffer);
             switch (ch) {
-            case '\n':
-                process_cmd(app_state.command_buffer);
-                app_state.mode = mode_normal;
-                app_state.command_buffer[0] = '\0';
-                curs_set(0);
-                refresh();
-        draw_curr_page();
-        draw_command_bar();
-                continue; 
-                break;
-            case 27:
-                app_state.mode = mode_normal;
-                app_state.command_buffer[0] = '\0';
-                curs_set(0);
-                break;
-            case KEY_BACKSPACE:
-            case 127:
-            case 8:
-                if (len > 1) {
-                    app_state.command_buffer[len - 1] = '\0';
-                } else {
+                case '\n':
+                    process_command(app_state.command_buffer);
                     app_state.mode = mode_normal;
-                }
-                break;
-            default:
-                if (ch >= 32 && ch <= 126 &&
-                    len < sizeof(app_state.command_buffer) - 1) {
-                    app_state.command_buffer[len] = ch;
-                    app_state.command_buffer[len + 1] = '\0';
-                }
-                break;
+                    app_state.command_buffer[0] = '\0';
+                    curs_set(0);
+                    break;
+                case 27: // ESC
+                    app_state.mode = mode_normal;
+                    app_state.command_buffer[0] = '\0';
+                    curs_set(0);
+                    break;
+                case KEY_BACKSPACE:
+                case 127: // Common backspace chars
+                case 8:
+                    if (len > 1) { // Keep the leading ':'
+                        app_state.command_buffer[len - 1] = '\0';
+                    } else { // Buffer is only ":", so exit command mode
+                        app_state.mode = mode_normal;
+                        app_state.command_buffer[0] = '\0';
+                        curs_set(0);
+                    }
+                    break;
+                default:
+                    if (ch >= 32 && ch <= 126 && len < sizeof(app_state.command_buffer) - 1) {
+                        app_state.command_buffer[len] = ch;
+                        app_state.command_buffer[len + 1] = '\0';
+                    }
+                    break;
             }
         } else if (app_state.mode == mode_normal) {
-            if (app_state.focus_panel == focus_sketch) {
-                        handle_sketch(ch);
-                }
             switch (ch) {
-            case KEY_RESIZE:
-                resize_w();
-                break;
-            case ':':
-                app_state.mode = mode_command;
-                strcpy(app_state.command_buffer, ":");
-                curs_set(1);
-                break;
-            case KEY_F(1): app_state.current_page = dashboard; break;
-            case KEY_F(2): app_state.current_page = boards; break;
-            case KEY_F(3): app_state.current_page = libraries; break;
-            case KEY_F(4): app_state.current_page = cores; break;
-            case KEY_F(5): app_state.current_page = examples; break;
-            case '\t':
-                app_state.focus_panel = (focuspanel)((app_state.focus_panel + 1) % 4);
-                break;
-            case 'q':
-            case 27: 
-                end_ui();
-                return 0;
+                case ERR: // This happens on timeout, we can ignore it
+                    break;
+                case KEY_RESIZE:
+                    resize_current_page();
+                    break;
+                case ':':
+                    app_state.mode = mode_command;
+                    strcpy(app_state.command_buffer, ":");
+                    curs_set(1);
+                    break;
+                case KEY_F(1): switch_page(0); break;
+                case KEY_F(2): switch_page(1); break;
+                case KEY_F(3): switch_page(2); break;
+                case KEY_F(4): switch_page(3); break;
+                case KEY_F(5): switch_page(4); break;
+                case 'q':
+                    end_ui();
+                    return 0;
+                default:
+                    handle_current_page_input(ch);
+                    break;
             }
         }
 
-        draw_curr_page();
+        // Then draw the updated state
+        draw_current_page();
         draw_command_bar();
         doupdate();
     }
@@ -104,4 +108,3 @@ int main() {
     end_ui();
     return 0;
 }
-

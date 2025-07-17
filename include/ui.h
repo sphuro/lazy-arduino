@@ -3,20 +3,21 @@
 
 #include <ncurses.h>
 
-#define CP_STANDARD 1
-#define CP_HIGHLIGHT_BORDER 2
-#define CP_HIGHLIGHT_TAB 3
-#define CP_STATUS_BAR 4
-#define CP_STATUS_NORMAL 5
-#define CP_STATUS_COMMAND 6
-extern WINDOW *sketch_win, *board_win, *log_win, *serial_win, *status_win,  *cmd_win;
-void init_ui();
+// Color Pair definitions
+enum {
+    CP_STANDARD = 1,
+    CP_HIGHLIGHT_BORDER,
+    CP_HIGHLIGHT_TAB,
+    CP_STATUS_NORMAL,
+    CP_STATUS_COMMAND
+};
 
-void end_ui();
-void resize_w();
+// Global window pointers
+extern WINDOW *sketch_win, *board_win, *log_win, *serial_win, *status_win, *cmd_win;
 
-/* void draw_current_page(void); */
+void init_ui(void);
+void end_ui(void);
+void resize_windows(void);
+void apply_theme(int base_color_256);
 
-/* void main_menu(); */
-
-#endif
+#endif // UI_H

@@ -75,28 +75,36 @@
 
 lazy-arduino/
 ├── include/
-│   ├── arduino.h       # Compile/upload logic
-│   ├── boards.h        # Board panel and port detection
-│   ├── config.h        # User config handling
-│   ├── logs.h          # Compilation/upload log viewer
-│   ├── pages.h         # Multi-page navigation
-│   ├── serial.h        # Serial monitor
-│   ├── sketches.h      # Sketch selection panel
-│   ├── state.h         # Global shared state
-│   ├── status.h        # Status bar rendering
-│   └── ui.h            # UI layout and key bindings
+│   ├── arduino.h
+│   ├── board.h
+│   ├── color_picker.h
+│   ├── colors.h
+│   ├── command.h        <-- NEW: For command registry
+│   ├── config.h
+│   ├── logs.h
+│   ├── pages.h          <-- MODIFIED: For page registry
+│   ├── panel.h          <-- NEW: For panel system
+│   ├── serial.h
+│   ├── sketches.h
+│   ├── state.h          <-- MODIFIED: State uses indices now
+│   ├── status.h
+│   └── ui.h
 ├── src/
-│   ├── arduino.c
-│   ├── boards.c
+│   ├── arduino.c        <-- MODIFIED: Old process_cmd removed
+│   ├── board.c          <-- MODIFIED: draw function signature changed
+│   ├── color_picker.c
+│   ├── colors.c
+│   ├── command.c        <-- NEW: Command implementations
 │   ├── config.c
-│   ├── logs.c
-│   ├── main.c
-│   ├── pages.c
-│   ├── serial.c
-│   ├── sketches.c
+│   ├── logs.c           <-- MODIFIED: draw function signature changed
+│   ├── main.c           <-- MODIFIED: Main loop is now generic
+│   ├── pages.c          <-- MODIFIED: Manages pages and panels
+│   ├── serial.c         <-- MODIFIED: draw function signature changed
+│   ├── sketches.c       <-- MODIFIED: Input/draw functions changed
 │   ├── state.c
-│   └── status.c
-
+│   ├── status.c
+│   └── ui.c
+└── ... (other files)
 ```
 i have added more Features so more files
 

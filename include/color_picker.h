@@ -6,4 +6,4 @@
 void draw_color_picker_page(void);
 void handle_color_picker_input(int key);
 
-#endif
+#endif // COLOR_PICKER_H
