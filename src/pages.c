@@ -73,8 +73,8 @@ void unimplemented_input(int key) {
     (void)key; // No action
 }
 
-void color_picker_init(){erase(); }
-void color_picker_draw() { draw_color_picker_page(); }
+void color_picker_init(){ }
+void color_picker_draw() {werase(stdscr); draw_color_picker_page(); wnoutrefresh(stdscr);}
 void color_picker_input(int key) { handle_color_picker_input(key); }
 
 const Page page_registry[] = {
@@ -144,5 +144,5 @@ void switch_page(int new_page_index) {
     app_state.focus_idx = 0; // Reset focus on page switch
     init_current_page();
     /* clear(); // Clear screen for new page */
-    draw_current_page();
+    /* draw_current_page(); */
 }
