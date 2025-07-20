@@ -3,6 +3,7 @@
 #include "arduino.h"
 #include "board.h"
 #include "logs.h"
+#include "config.h"
 #include <dirent.h>
 #include <ncurses.h>
 #include <stdio.h>
@@ -20,7 +21,6 @@ void load_sketches(const char *path) {
         return;
     }
 
-    // Clear existing sketch list
     sketch_count = 0;
     memset(sketches, 0, sizeof(sketches));
 
@@ -64,18 +64,25 @@ void handle_sketches_input(Panel *self, int key) {
             if (selected_sketch < sketch_count - 1)
                 selected_sketch++;
             break;
-        case '\n': // Enter key
+        case '\n':
             if (sketch_count > 0)
                 open_in_editor(sketches[selected_sketch]);
             break;
-        case 'c': // Compile
-            if (sketch_count > 0)
-                compile_sketch(sketches[selected_sketch]);
+       case 'c':
+            if (sketch_count > 0) {
+                char log_msg[256];
+                snprintf(log_msg, sizeof(log_msg), "Compiling %s for %s", sketches[selected_sketch], target_fqbn);
+                add_log(log_msg);
+                compile_sketch(sketches[selected_sketch], target_fqbn);
+            }
             break;
-        case 'u': // Upload
+        case 'u':
             if (sketch_count > 0) {
                 if (board_count > 0) {
-                    upload_sketch(sketches[selected_sketch], connected_boards[0].port);
+                    char log_msg[256];
+                    snprintf(log_msg, sizeof(log_msg), "Uploading %s to %s", sketches[selected_sketch], target_port);
+                    add_log(log_msg);
+                    upload_sketch(sketches[selected_sketch], target_fqbn, target_port);
                 } else {
                     add_log("Error: No board connected for upload.");
                 }

@@ -5,9 +5,11 @@
 #include "state.h"
 #include "ui.h"
 #include "logs.h"
+#include "config.h"
 #include <ncurses.h>
 #include <string.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 void draw_command_bar() {
     werase(cmd_win);
@@ -18,8 +20,19 @@ void draw_command_bar() {
     wnoutrefresh(cmd_win);
 }
 
+void check_dependencies() {
+    if (system("command -v arduino-cli &> /dev/null") != 0) {
+        endwin();
+        fprintf(stderr, "Error: 'arduino-cli' is not installed or not in your PATH.\n");
+        fprintf(stderr, "Please install it to use this application.\n");
+        fprintf(stderr, "See: https://arduino.github.io/arduino-cli/latest/installation/\n");
+        exit(1);
+    }
+}
 
 int main() {
+    check_dependencies();
+    load_config();
     init_ui();
 
     app_state.current_idx = 0; // Dashboard

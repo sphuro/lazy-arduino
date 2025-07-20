@@ -3,6 +3,7 @@
 #include "board.h"
 #include "pages.h"
 #include "ui.h"
+#include "config.h"
 #include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
@@ -57,19 +58,20 @@ void draw_status(WINDOW *win) {
         } else {
             wattron(win, COLOR_PAIR(status_color_pair));
         }
+        /* if(page_registry[i].name != "Color Picker") mvwprintw(win, 0, current_pos, " F%d:%s ", i + 1, page_registry[i].name); */
         mvwprintw(win, 0, current_pos, " F%d:%s ", i + 1, page_registry[i].name);
         current_pos += strlen(page_registry[i].name) + 6;
     }
 
     // Draw Right-aligned Status
-    char right_status[128];
+    char right_status[256];
     if (is_loading) {
         snprintf(right_status, sizeof(right_status), "Working... %c", spinner[loading_idx]);
     } else {
         const char *board_status_str = (board_count > 0) ? "Connected" : "No Board";
         if (app_state.current_idx == 0) { // If on Dashboard page
             const char *focus_str = (app_state.focus_idx < 4) ? panel_names[app_state.focus_idx] : "Unknown";
-            snprintf(right_status, sizeof(right_status), "Board: %s | Focus: %s (TAB)", board_status_str, focus_str);
+            snprintf(right_status, sizeof(right_status), "Board: %s | Port: %s | Focus: %s (TAB)", target_fqbn, target_port, focus_str);
         } else {
             snprintf(right_status, sizeof(right_status), "Board: %s", board_status_str);
         }

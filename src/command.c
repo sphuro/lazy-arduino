@@ -4,10 +4,37 @@
 #include "colors.h"
 #include "pages.h"
 #include "sketches.h"
+#include "config.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
+
+void command_set_fqbn(const char *args) {
+    if (strlen(args) > 0) {
+        strncpy(target_fqbn, args, sizeof(target_fqbn) - 1);
+        target_fqbn[sizeof(target_fqbn) - 1] = '\0';
+        save_config();
+        char log_msg[256];
+        snprintf(log_msg, sizeof(log_msg), "Target board set to: %s", target_fqbn);
+        add_log(log_msg);
+    } else {
+        add_log("Usage: :setfqbn <your:board:fqbn>");
+    }
+}
+
+void command_set_port(const char *args) {
+    if (strlen(args) > 0) {
+        strncpy(target_port, args, sizeof(target_port) - 1);
+        target_port[sizeof(target_port) - 1] = '\0';
+        save_config();
+        char log_msg[256];
+        snprintf(log_msg, sizeof(log_msg), "Target port set to: %s", target_port);
+        add_log(log_msg);
+    } else {
+        add_log("Usage: :setport /dev/your_port");
+    }
+}
 
 void command_newfile(const char *args) {
     char filename[128] = {0};
@@ -82,7 +109,9 @@ void command_color_picker(const char *args) {
 static const Command command_registry[] = {
     {":newfile", command_newfile},
     {":color #", command_color_hex},
-    {":color", command_color_picker}
+    {":color", command_color_picker},
+    {":setfqbn", command_set_fqbn},
+    {":setport", command_set_port}
 };
 static const int num_commands = sizeof(command_registry) / sizeof(Command);
 
