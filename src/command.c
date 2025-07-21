@@ -99,7 +99,7 @@ void command_color_hex(const char *args) {
 void command_color_picker(const char *args) {
     (void)args; // Unused
     for (int i = 0; i < NUM_PAGES; i++) {
-        if (strcmp(page_registry[i].name, "Color Picker") == 0) {
+        if (strcmp(page_registry[i].name, "Colors") == 0) {
             switch_page(i);
             break;
         }

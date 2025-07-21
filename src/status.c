@@ -52,7 +52,9 @@ void draw_status(WINDOW *win) {
 
     // Draw Page Tabs
     int current_pos = strlen(mode_str) + 2;
+    int tab_f = 1;
     for (int i = 0; i < NUM_PAGES; i++) {
+        if(!page_registry[i].show_in_tabs) continue;
         if (i == app_state.current_idx) {
             wattron(win, COLOR_PAIR(CP_HIGHLIGHT_TAB) | A_BOLD);
         } else {
